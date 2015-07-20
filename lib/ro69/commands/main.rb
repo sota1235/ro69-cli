@@ -49,7 +49,7 @@ module Ro69
           array << num.to_s + DELIMITER + object[:title]
         end
 
-        select_num = Ifilter.filtering(array).split(DELIMITER).first
+        select_num = Ifilter.filtering(target).split(DELIMITER).first
       end
     end
   end
