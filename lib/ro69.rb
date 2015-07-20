@@ -3,7 +3,7 @@ require "json"
 require "mechanize"
 
 require "ro69/version"
-require "ro69/liverepoerror"
+require "ro69/live_repo_error"
 require "ro69/commands/base"
 require "ro69/commands/main"
 

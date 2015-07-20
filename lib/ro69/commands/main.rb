@@ -4,14 +4,14 @@ module Ro69
       def initialize(*args)
         super
 
-        @sites = open(FilePath) do |json|
+        @sites = open(::Ro69::FilePath) do |json|
           JSON.load(json)
         end
       end
 
       desc "version", "version"
       def version
-        puts "#{Version}"
+        puts "#{::Ro69::Version}"
       end
 
       desc "liverepo", "ro69 live report list top 20"
@@ -25,14 +25,15 @@ module Ro69
           when "foreign"
             category_id = 2
           else
-            raise LiveRepoError, "有効な文字列を入力してください.(all|japan|foreign)"
+            raise LiveRepoError, "option => (all|japan|foreign)"
           end
         rescue LiveRepoError => ex
-          puts ex.message
+          STDERR.puts ex.message
           exit 1
         end
 
-        url = @sites["live_report_url"] + category_id.to_s
+        query_string = "category=#{category_id}"
+        url = "#{@sites["live_report_url"]}?#{query_string}"
 
         @agent.get(url).search("h3.ttl_l > a").each do |item|
           puts "#{item.attribute('title')} #{@sites["base_url"]}#{item.attribute('href')}"
