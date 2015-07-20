@@ -3,4 +3,4 @@ $LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
 
 require "ro69"
 
-Ro69::Cli::Main.start(ARGV)
+Ro69::Commands::Main.start(ARGV)

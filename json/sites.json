@@ -1,19 +1,4 @@
 {
-    "live_report" : [
-        {
-            // All
-            "category" : 0,
-            "url" : "http://ro69.jp/live?category=0"
-        },
-        {
-            // Javanese Music
-            "category" : 1,
-            "url" : "http://ro69.jp/live?category=1" 
-        },
-        {
-            // Foreign Music
-            "category" : 2,
-            "url" : "http://ro69.jp/live?category=2" 
-        }    
-    ]
+    "base_url" : "http://ro69.jp",
+    "live_report_url" : "http://ro69.jp/live?category="
 }
