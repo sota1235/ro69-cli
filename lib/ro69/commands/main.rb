@@ -4,27 +4,32 @@ module Ro69
       def initialize(*args)
         super
 
-        @sites = open(Ro69::FilePath) do |json|
+        @sites = open(FilePath) do |json|
           JSON.load(json)
         end
       end
 
       desc "version", "version"
       def version
-        puts "#{Ro69::Version}"
+        puts "#{Version}"
       end
 
       desc "liverepo", "ro69 live report list top 20"
       def liverepo(category = "all")
-        case category
-        when "all"
-          category_id = 0
-        when "japan"
-          category_id = 1
-        when "foreign"
-          category_id = 2
-        else
-          raise
+        begin 
+          case category
+          when "all"
+            category_id = 0
+          when "japan"
+            category_id = 1
+          when "foreign"
+            category_id = 2
+          else
+            raise LiveRepoError, "有効な文字列を入力してください.(all|japan|foreign)"
+          end
+        rescue LiveRepoError => ex
+          puts ex.message
+          exit 1
         end
 
         url = @sites["live_report_url"] + category_id.to_s
