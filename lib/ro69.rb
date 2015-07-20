@@ -10,5 +10,5 @@ require "ro69/commands/base"
 require "ro69/commands/main"
 
 module Ro69
-  FilePath = File.expand_path("../../json/sites.json", __FILE__)
+  BASE_URI = "http://ro69.jp"
 end

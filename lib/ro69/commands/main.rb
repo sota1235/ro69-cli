@@ -3,17 +3,9 @@ module Ro69
     class Main < Base
       DELIMITER = ". "
 
-      def initialize(*args)
-        super
-
-        @sites = open(::Ro69::FilePath) do |json|
-          JSON.load(json)
-        end
-      end
-
       desc "version", "version"
       def version
-        puts "#{::Ro69::Version}"
+        puts "#{::Ro69::VERSION}"
       end
 
       desc "liverepo", "ro69 live report list top 20"
@@ -35,18 +27,18 @@ module Ro69
         end
 
         query_string = "category=#{category_id}"
-        url = @sites["live_report_url"] + "?" + query_string
+        url = "#{::Ro69::BASE_URI}/live?category=#{category_id}"
 
         storage = {}
         @agent.get(url).search("h3.ttl_l > a").each_with_index do |item, num|
           title = item.attribute("title").value
-          href = @sites["base_url"] + item.attribute("href").value
+          href = ::Ro69::BASE_URI + item.attribute("href").value
 
           storage.store(num, {title: title, href: href})
         end
 
         target = storage.each_with_object([]) do |(num, object), array|
-          array << num.to_s + DELIMITER + object[:title]
+        array << num.to_s + DELIMITER + object[:title]
         end
 
         select_num = Ifilter.filtering(target).split(DELIMITER).first.to_i
