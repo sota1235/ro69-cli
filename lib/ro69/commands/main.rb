@@ -1,7 +1,7 @@
 module Ro69
   module Commands
     class Main < Base
-      DELIMITER = " => "
+      DELIMITER = ". "
 
       def initialize(*args)
         super
@@ -42,14 +42,18 @@ module Ro69
           title = item.attribute("title").value
           href = @sites["base_url"] + item.attribute("href").value
 
-          storage.store(num, {num: num, title: title, href: href})
+          storage.store(num, {title: title, href: href})
         end
 
         target = storage.each_with_object([]) do |(num, object), array|
           array << num.to_s + DELIMITER + object[:title]
         end
 
-        select_num = Ifilter.filtering(target).split(DELIMITER).first
+        select_num = Ifilter.filtering(target).split(DELIMITER).first.to_i
+        select_url = storage[select_num][:href]
+
+        article = Sanitize.clean @agent.get(select_url).search("div.article_box_inner")
+        STDOUT.puts article
       end
     end
   end

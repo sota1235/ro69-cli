@@ -2,6 +2,7 @@ require "thor"
 require "json"
 require "mechanize"
 require "ifilter"
+require "sanitize"
 
 require "ro69/version"
 require "ro69/live_repo_error"
