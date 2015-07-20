@@ -4,14 +4,14 @@ module Ro69
       def initialize(*args)
         super
 
-        @sites = open(FilePath) do |json|
+        @sites = open(Ro69::FilePath) do |json|
           JSON.load(json)
         end
       end
 
       desc "version", "version"
       def version
-        puts "#{VERSION}"
+        puts "#{Ro69::Version}"
       end
 
       desc "liverepo", "ro69 live report list top 20"
