@@ -1,6 +1,8 @@
 module Ro69
   module Commands
     class Main < Base
+      DELIMITER = " => "
+
       def initialize(*args)
         super
 
@@ -33,11 +35,21 @@ module Ro69
         end
 
         query_string = "category=#{category_id}"
-        url = "#{@sites["live_report_url"]}?#{query_string}"
+        url = @sites["live_report_url"] + "?" + query_string
 
-        @agent.get(url).search("h3.ttl_l > a").each do |item|
-          puts "#{item.attribute('title')} #{@sites["base_url"]}#{item.attribute('href')}"
+        storage = {}
+        @agent.get(url).search("h3.ttl_l > a").each_with_index do |item, num|
+          title = item.attribute("title").value
+          href = @sites["base_url"] + item.attribute("href").value
+
+          storage.store(num, {num: num, title: title, href: href})
         end
+
+        target = storage.each_with_object([]) do |(num, object), array|
+          array << num.to_s + DELIMITER + object[:title]
+        end
+
+        select_num = Ifilter.filtering(array).split(DELIMITER).first
       end
     end
   end
